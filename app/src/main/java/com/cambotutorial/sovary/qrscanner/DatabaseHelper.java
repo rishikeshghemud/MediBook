@@ -35,18 +35,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean addOne(PlantInfo p){
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put("NAME", p.name);
-
-        long result = db.insert("PLANTS_INFO", null, cv);
-
-        return result != -1;
-
-
-    }
 
     public PlantInfo fetchOne(String id){
             SQLiteDatabase db = this.getReadableDatabase();
@@ -86,6 +74,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             copyDatabase();
         }
+
+
+    }
+
+    public boolean addOne(PlantInfo p){
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("NAME", p.name);
+
+        long result = db.insert("PLANTS_INFO", null, cv);
+
+        return result != -1;
 
 
     }

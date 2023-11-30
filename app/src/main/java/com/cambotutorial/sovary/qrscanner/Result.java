@@ -3,14 +3,25 @@ package com.cambotutorial.sovary.qrscanner;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class Result extends AppCompatActivity {
 
-    TextView tvResID, tvResName, tvResSpecies, tvResInfo, tvResImage;
-    EditText etBinaryData;
+    TextView tvResName, tvResSpecies, tvResInfo;
+    ImageView imageView;
+    String image_link, name, species, info;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,19 +30,25 @@ public class Result extends AppCompatActivity {
 
         Intent i = getIntent();
         String id = i.getStringExtra("ID");
-        String name = i.getStringExtra("Name");
-        String species = i.getStringExtra("Species");
-        String info = i.getStringExtra("Info");
-        String image_link = i.getStringExtra("Image_link");
+        name = i.getStringExtra("Name");
+        species = i.getStringExtra("Species");
+        info = i.getStringExtra("Info");
+        image_link = i.getStringExtra("Image_link");
 
         tvResName = findViewById(R.id.tvName);
         tvResSpecies = findViewById(R.id.tvSpecies);
         tvResInfo = findViewById(R.id.tvInfo);
-        tvResImage = findViewById(R.id.tvImageLink);
+        imageView = findViewById(R.id.imageView);
         
         tvResName.setText(name);
         tvResSpecies.setText(species);
         tvResInfo.setText(info);
-        tvResImage.setText(image_link);
+
+
+        Glide.with(this)
+                .load(image_link)
+                .into(imageView);
     }
+
+
 }

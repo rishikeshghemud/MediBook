@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity
 {
     Button btn_scan;
     DatabaseHelper db;
+    AlertDialog.Builder builder;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         db = new DatabaseHelper(this);
+
         /*try{
             db.checkDB();
         } catch (Exception e){
@@ -94,19 +96,25 @@ public class MainActivity extends AppCompatActivity
 //            int plantId = Integer.parseInt(id);
             try {
                 PlantInfo plant = db.fetchOne(id);
-                Intent i = new Intent(getApplicationContext(), Result.class);
-                i.putExtra("ID", id);
-                i.putExtra("Name", plant.name);
-                i.putExtra("Species", plant.species);
-                i.putExtra("Info", plant.info);
-                i.putExtra("Image_link", plant.image_link);
-                startActivity(i);
+                if(plant.name != null) {
+                    Intent i = new Intent(getApplicationContext(), Result.class);
+                    i.putExtra("ID", id);
+                    i.putExtra("Name", plant.name);
+                    i.putExtra("Species", plant.species);
+                    i.putExtra("Info", plant.info);
+                    i.putExtra("Image_link", plant.image_link);
+                    startActivity(i);
+                } else {
+                    builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Sorry no plant registered for QR")
+                            .setNegativeButton("OK", (dialogInterface, i) -> {
+                               dialogInterface.cancel();
+                            }).show();
+                }
+
             } catch (Exception e){
                 e.printStackTrace();
             }
-
-
-
 
         }
     });
